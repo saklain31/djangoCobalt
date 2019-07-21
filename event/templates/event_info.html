@@ -1,24 +1,40 @@
 <!DOCTYPE HTML>
 <html>
 
-<form method="post" enctype="multipart/form-data" action="/fetcheventform/">
+<form method="post" enctype="multipart/form-data" action="/createEvent/">
 {% csrf_token %}
 
     Event Name:<br>
     <input type="text" name="eventname">
     <br>
-    Date:<br>
-    <input type="text" name="date">
+
+    Location:<br>
+    <input type="text" name="location">
     <br>
-    Time:<br>
-    <input type="text" name="time">
+
+    Start Date:<br>
+    <input type="date" name="startdate">
     <br>
-    Other Input1:<br>
-    <input type="text" name="oi1">
+
+    Start Time:<br>
+    <input type="time" name="starttime">
     <br>
-    Other Input2:<br>
+
+    End Date:<br>
+    <input type="date" name="enddate">
+    <br>
+
+    End Time:<br>
+    <input type="time" name="endtime">
+    <br>
+
+    Description:<br>
+    <input type="text" name="description">
+    <br>
+
+    <!-- Other Input2:<br>
     <input type="text" name="oi2">
-    <br>
+    <br> -->
 
     <input type="submit" value="ok">
 

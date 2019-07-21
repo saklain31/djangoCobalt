@@ -13,7 +13,7 @@ class Event(models.Model):
     endtime = models.CharField(max_length=50) #Test
     description = models.CharField(max_length=150)
     speakers = models.CharField(max_length=200)
-
+    
     def save_speakers(self, x):
         self.speakers = json.dumps(x)
 

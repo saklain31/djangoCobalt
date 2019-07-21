@@ -16,8 +16,8 @@ urlpatterns = [
 
     path('countdown/',countDownTime),
     path('eventinfo/',takeEventInfo),
-    path('fetcheventform/',getEventForm),
     path('createEvent/',createEvent),
+    # path('createEvent/',createEvent),
     path('displayEvents/',displayEvents),
     path('addEventToCalendar/',addEventToCalendar),
 ]

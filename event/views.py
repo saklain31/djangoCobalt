@@ -26,25 +26,32 @@ from dateutil import parser
 
 from .models import *
 
-def getEventForm(request):
-    eventname = request.POST['eventname'] # u_name is the name of the input tag
-    date = request.POST['date']
-    time = request.POST['time']
-    oi1 =  request.POST['oi1']
-    oi2 = request.POST['oi2']
 
-    return HttpResponse(eventname+"     "+date+"     "+time+"      ")
+# If modifying these scopes, delete the file token.pickle.
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def takeEventInfo(request):
     return render(request,'event_info.html')
 
 
 def createEvent(request):
-    sp1 = ["sp1","sp1@gmail","afs"] #Speaker.objects.create(name="sp1", email="sp1@gmail", discountCode="afs")
-    sp2 = ["sp2","sp2@gmail","afswq"]#Speaker.objects.create(name="sp2", email="sp2@gmail", discountCode="afas")
+
+    eventname = request.POST['eventname'] # u_name is the name of the input tag
+    location = request.POST['location']
+
+    startdate = request.POST['startdate']
+    enddate = request.POST['enddate']
+
+    starttime = request.POST['starttime']
+    endtime = request.POST['endtime']
+
+    description =  request.POST['description']
+
+    sp1 = ["sp1","sp1@gmail","afs"]
+    sp2 = ["sp2","sp2@gmail","afswq"]
 
     sp = [sp1,sp2]
-    event = Event.objects.create(eventname="Myevent1",location="Dhaka",startdate="12/12/19",enddate="13/12/19",starttime="10",description="Kono kotha hobe na")
+    event = Event.objects.create(eventname=eventname,location=location,startdate=startdate,enddate=enddate,starttime=starttime,endtime=endtime,description=description)
     event.save_speakers(sp)
     event.save()
 
@@ -53,25 +60,20 @@ def createEvent(request):
 
 
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def addEvent():
     event = {
-      'summary': ' Party',
-      'location': '800 Howard St., San Francisco, CA 94103',
-      'description': 'A chance to hear more about Google\'s developer products.',
+      'summary': ' Birthday',
+      'location': 'San Francisco, CA 94103',
+      'description': 'A chance to enjoy birthday party.',
       'start': {
-        'dateTime': '2019-10-01T09:00:00-07:00',
-        'timeZone': 'America/Los_Angeles',
+        'date': '2019-10-01',
+        'time':'02:00'
         },
       'end': {
-        'dateTime': '2019-10-28T17:00:00-07:00',
-        'timeZone': 'America/Los_Angeles',
+        'date': '2019-10-02',
+        'time':'02:00'
         },
-      'recurrence': [
-        'RRULE:FREQ=DAILY;COUNT=1'
-      ],
       'attendees': [
         {'email': 'lpage@example.com'},
         {'email': 'sbrin@example.com'},
@@ -85,11 +87,40 @@ def addEvent():
       },
       'keynoteSpeakers':{
         'sp1':{
-            'mail':'sp1@gmail.com',
+            'mail':'sp2@gmail.com',
             'code':'random'
         }
       }
     }
+    #   'start': {
+    #     'dateTime': '2019-10-01T09:00:00-07:',
+    #     'timeZone': 'America/Los_Angeles',
+    #     },
+    #   'end': {
+    #     'dateTime': '2019-10-28T17:00:00-07:00',
+    #     'timeZone': 'America/Los_Angeles',
+    #     },
+    #   'recurrence': [
+    #     'RRULE:FREQ=DAILY;COUNT=1'
+    #   ],
+    #   'attendees': [
+    #     {'email': 'lpage@example.com'},
+    #     {'email': 'sbrin@example.com'},
+    #   ],
+    #   'reminders': {
+    #     'useDefault': False,
+    #     'overrides': [
+    #       {'method': 'email', 'minutes': 24 * 60},
+    #       {'method': 'popup', 'minutes': 10},
+    #     ],
+    #   },
+    #   'keynoteSpeakers':{
+    #     'sp1':{
+    #         'mail':'sp1@gmail.com',
+    #         'code':'random'
+    #     }
+    #   }
+    # }
 
     return event
 
@@ -140,10 +171,10 @@ def displayEvents(request):
 
 
     for event in events:
-        print(type(event))
+        print(event['summary'])
         # start = event['start'].get('dateTime', event['start'].get('date'))
         # print(start, event['summary'])
-        
+
     events = list({v['summary']:v for v in events}.values()) ##Get unique events only
     return render(request,'ShowCalendarList.html',{'events':events})
 
