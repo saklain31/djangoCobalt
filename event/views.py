@@ -23,6 +23,8 @@ from oauth2client import client
 from oauth2client import tools
 
 from dateutil import parser
+from datetime import datetime
+import time
 
 from .models import *
 
@@ -39,8 +41,8 @@ def createEvent(request):
     eventname = request.POST['eventname'] # u_name is the name of the input tag
     location = request.POST['location']
 
-    startdate = request.POST['startdate']
-    enddate = request.POST['enddate']
+    # startdate = request.POST['startdate']
+    # enddate = request.POST['enddate']
 
     starttime = request.POST['starttime']
     endtime = request.POST['endtime']
@@ -51,13 +53,37 @@ def createEvent(request):
     sp2 = ["sp2","sp2@gmail","afswq"]
 
     sp = [sp1,sp2]
-    event = Event.objects.create(eventname=eventname,location=location,startdate=startdate,enddate=enddate,starttime=starttime,endtime=endtime,description=description)
+    event = Event.objects.create(eventname=eventname,location=location,starttime=starttime,endtime=endtime,description=description)
+#startdate=startdate,enddate=enddate,
     event.save_speakers(sp)
     event.save()
 
     print(Event.objects.all())
     return HttpResponse(Event.objects.all())
 
+
+def getEventsFromDB():
+    eventlist = []
+    events = Event.objects.all()  ###### Check for user specific permissions
+    for i in events:
+        event = {
+          'summary': i.eventname,
+          'location': i.location,
+          'description': i.description,
+          'start': {
+            # 'date': time.strftime(str(i.startdate)),
+            'dateTime': i.starttime.isoformat()
+            },
+          'end': {
+            # 'date': time.strftime(str(i.enddate)),
+            'dateTime': i.endtime.isoformat()
+            }
+        }
+
+
+        eventlist.append(event)
+        print(i.eventname,i.location,i.description,"***",i.endtime.isoformat(),i.starttime.isoformat())
+    return eventlist
 
 
 
@@ -148,18 +174,21 @@ def addEventToCalendar(request):
     creds = getCredentials()
     service = build('calendar', 'v3', credentials=creds)
 
-    newEvent = addEvent()
-    event = service.events().insert(calendarId='primary', body=newEvent).execute()
-    print('Event created: ' , (event.get('htmlLink')))
+    newEvents = getEventsFromDB()
 
-    return HttpResponse("event created")
+    print(newEvents)
+    for i in newEvents:
+        event = service.events().insert(calendarId='primary', body=i).execute()
+        print('Event created: ' , (event.get('htmlLink')))
+
+    return HttpResponse(len(newEvents),"event added to calendar")
 
 
 def displayEvents(request):
     creds = getCredentials()
     service = build('calendar', 'v3', credentials=creds)
     # Call the Calendar API
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 
     eventResult = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=10, singleEvents=True,
@@ -172,8 +201,8 @@ def displayEvents(request):
 
     for event in events:
         print(event['summary'])
-        # start = event['start'].get('dateTime', event['start'].get('date'))
-        # print(start, event['summary'])
+        start = event['start'].get('date', event['start'].get('time'))
+        print(start, event['summary'])
 
     events = list({v['summary']:v for v in events}.values()) ##Get unique events only
     return render(request,'ShowCalendarList.html',{'events':events})
@@ -234,7 +263,7 @@ def getGCEvents():
 
     creds = getCredentials()
     gc_service = build('calendar', 'v3', credentials=creds)
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    now = datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
 
     while True:
         calendarList= gc_service.events().list(calendarId='primary', timeMin=now,

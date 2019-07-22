@@ -20,4 +20,6 @@ urlpatterns = [
     # path('createEvent/',createEvent),
     path('displayEvents/',displayEvents),
     path('addEventToCalendar/',addEventToCalendar),
+    path('exportEvents/',exportEvents),
+    # path('getEventsFromDB/',getEventsFromDB),
 ]
