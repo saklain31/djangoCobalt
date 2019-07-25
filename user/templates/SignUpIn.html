@@ -1,0 +1,153 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<link rel="stylesheet" href="/static/cms_static/css/Style.css">
+		<style>
+			.container{
+			font-family: 'Open Sans', sans-serif;
+			width:800px;
+			height:auto;
+			display:flex;
+			padding-bottom:50px;
+			}
+			.halfContainer{
+			margin-left:100px;
+			width:50%;
+			margin-top:30px;
+			font-size:12px;
+			}
+			.halfContainer span{
+			color:rgb(0,105,85);
+			font-size:16px;
+			line-height:16px;
+			}
+			.textBox{
+			width:200px;
+			height:30px;
+			border:1px solid rgb(150,150,150); 
+			border-radius:10px;
+			margin-bottom:15px;
+			margin-top:2px;
+			margin-left:1px;
+			}
+			.socialLogin{
+			margin-top:50px;
+			width:200px;
+			}
+			.google{
+			color:white;
+			border-radius:5px;
+			background-color:firebrick;
+			padding:5px;
+			text-align:center;
+			box-shadow:1px 2px 7px rgb(150,150,150);
+			}
+			.facebook{
+			margin-top:10px;
+			border-radius:5px;
+			color:white;
+			background-color:royalblue;
+			padding:5px;
+			text-align:center;
+			box-shadow:1px 2px 7px rgb(150,150,150);
+			}
+		</style>
+	</head>
+	
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<body style="margin:0">
+		<div class="topnav">
+			<div class="navButtonHolder">
+				<div class="navButton" style="width:90px">
+					<div>
+						<img src="/static/cms_static/photos/menu.svg" style="height:84%;margin:8%;">	
+					</div>
+				</div>
+				<div class="navButton" style="width:900px">
+					<div>
+						<b style="color:white;font-family: Letter Gothic Std; font-size:18px">UNNAMED</b>	
+					</div>
+				</div>
+				<div class="navButton" style="width:50px">
+					<div>
+						<img src="/static/cms_static/photos/search.svg" style="height:100%;margin:auto;">	
+					</div>
+				</div>
+				<div class="navButton" style="width:50px">
+					<div>
+						<img src="/static/cms_static/photos/profile.svg" style="height:100%;margin:auto;	">	
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="page">
+			<div class="contentHolder">
+			    <div class="container" style="margin:0 140px;">
+					<div class="halfContainer" >
+						<span>DON'T HAVE AN ACCOUNT?<br>SIGN UP!</span>
+							<form style="margin-top:30px;">
+								Name<br>
+								<input class="textBox"></input>
+								<br>
+								Email<br>
+								<input class="textBox"></input><br>
+								Password<br>
+								<input class="textBox"></input><br>
+								Confirm Password<br>
+								<input class="textBox"></input><br>
+								<button class="universalButton" style="margin-left:130px;font-size:12px;">
+								<a href="{% url 'account_signup' %}" style="text-decoration: none; text-decoration-color: white; ">Sign Up</a>
+								</button>
+							</form>
+						</div>
+					<div class="halfContainer">
+						<span>SIGN IN</span>
+							<form style="margin-top:30px;"><br>
+							Email<br>
+							<input class="textBox"></input><br>
+							Password<br>
+							<input class="textBox"></input><br>
+							<button class="universalButton" style="margin-left:130px;font-size:12px;">
+							<a href="{% url 'account_login' %}" style="text-decoration: none; text-decoration-color: white; ">Sign IN
+							</a>
+							</button>
+							</form>
+						<div class="socialLogin">
+							<div class="google">
+								<a href="{% provider_login_url 'google' %}">Continue with Google</a>
+							</div>
+							<div class="facebook" id="facebook">
+							Continue with Facebook
+							<a href="{% provider_login_url 'facebook' method='oauth2' %}">Facebook OAuth2</a>
+							</div>
+							<div class="facebook">
+								<a href="{% provider_login_url 'github' %}">Continue with Github</a>
+							</div>
+							<div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+		</div>
+	</body>
+	<script type="text/javascript">
+		$('#facebook').click(function() {
+			$.ajax({
+				url: "https://github.com/37921783/oauth/authorize",
+				type: "GET",
+				data: {},
+				success: function(data) {
+					alert("YES YES Alhamdulillah");
+				}
+			});
+		});
+	</script>
+
+</html>

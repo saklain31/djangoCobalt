@@ -1,0 +1,70 @@
+.cardContainer{
+	margin:50px 70px;
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center ;
+}
+.card {
+  /* Add shadows to create the "card" effect */
+  width:280px;
+  height:280px;
+  border-radius:20px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  overflow:hidden;
+  margin:10px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+.cardImgContainer{
+	width:100%;
+	height:62%;
+	overflow:hidden;
+}
+.cardImgContainer img{
+	height:auto;
+	width:auto;
+	width:100%;
+	height:100%;
+}
+.cardTitleContainer {
+	padding:0px 5px;
+	width:100%;
+	height:13%;
+	overflow:hidden;
+	text-align:justify;
+}
+.cardTitleContainer strong{
+	font-family: 'Open Sans', sans-serif;
+	font-size:15px;
+	letter-spacing:-.2px;
+	word-spacing: -1px;
+	line-height:-2px;
+}
+.cardDescContainer {
+	padding:0px 5px;
+	width:100%;
+	height:16%;
+	overflow:hidden;
+	text-align:justify;
+}
+.cardDescContainer small{
+	letter-spacing: -.2px;
+	word-spacing: -1px;
+	font-family: 'Open Sans', sans-serif;
+	font-size:12px;
+}
+.cardDateContainer {
+	background-color:rgb(30,30,30,.95);
+	width:100%;
+	height:9%;
+	overflow:hidden;
+	text-align:center;
+}
+.cardDateContainer small {
+	font-family: 'Open Sans', sans-serif;
+	color:White;
+}
