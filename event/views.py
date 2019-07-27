@@ -8,6 +8,8 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 # from .settings import MY_KEY
+from datetime import datetime
+import dateutil.parser
 
 
 import csv
@@ -183,6 +185,9 @@ def addEventToCalendar(request):
 
     return HttpResponse(len(newEvents),"event added to calendar")
 
+def getDateTimeFromISO8601String(s):
+    d = dateutil.parser.parse(s)
+    return d
 
 def displayEvents(request):
     creds = getCredentials()
@@ -200,12 +205,20 @@ def displayEvents(request):
 
 
     for event in events:
+        print(event)
+        temp = getDateTimeFromISO8601String(event['start']['dateTime'])
+        event['start']['dateTime'] = temp.strftime("%m/%d/%Y, %H:%M")
+
+        temp = getDateTimeFromISO8601String(event['end']['dateTime'])
+        event['end']['dateTime'] = temp.strftime("%m/%d/%Y, %H:%M")
+
+        print("temp ",temp)
         print(event['summary'])
-        start = event['start'].get('date', event['start'].get('time'))
+        start = event['start']['dateTime']#, event['end'].get('dateTime'))
         print(start, event['summary'])
 
     events = list({v['summary']:v for v in events}.values()) ##Get unique events only
-    return render(request,'ShowCalendarList.html',{'events':events})
+    return render(request,'event_card.html',{'events':events})
 
 
 def displayWrittenDataInfo(nb_of_records, filename):
@@ -285,6 +298,11 @@ def exportEvents(request):
     saveObjectToJson(all_events, exportFilename + ".json")
     saveGCEventsToCSV(all_events, exportFilename + ".csv")
     return render(request,'ShowCalendarList.html',{'events':all_events})
+
+
+def displayEventCards(request):
+    return render(request,'event_card.html')
+
 
 def addressToGeocode():
     geolocator = Nominatim(user_agent="specify_your_app_name_here")

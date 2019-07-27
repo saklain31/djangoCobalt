@@ -1,0 +1,49 @@
+<!-- <input type="text"> -->
+<button class="add">Add</button>
+<button class="remove">remove</button>
+<!-- <div class="row">
+
+</div> -->
+<div id = "kk" class="row">
+<div id="new_chq"></div>
+<div id="new_chq2"></div>
+</div>
+
+
+<input  value="1" id="total_chq">
+<input  value="2" id="total_chq2">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  $('.add').on('click', add);
+  $('.remove').on('click', remove);
+
+  var temp = 2;
+
+  function add() {
+  /* 	parseInt($('#total_chq').val())*/
+  console.log(temp);
+  temp =temp+1;
+  var new_chq_no = temp;
+  temp =temp+1;
+  var new_chq_no2 = temp;
+
+  var new_input = "<input type='text' id='new_" + new_chq_no + "'><input type='text' id='new_" + new_chq_no2 + "'>";
+
+  $('#kk').append(new_input);
+  /*   $('#new_chq2').append(new_input2); */
+
+  $('#total_chq').val(new_chq_no);
+  $('#total_chq2').val(new_chq_no2);
+  }
+
+  function remove() {
+      var last_chq_no = $('#total_chq').val();
+      if (last_chq_no > 1) {
+      $('#new_' + last_chq_no).remove();
+      $('#total_chq').val(last_chq_no - 1);
+      }
+  }
+
+</script>

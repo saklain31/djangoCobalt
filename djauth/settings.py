@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'guardian',
     'countdown',
     'event',
+    'budgetManagement',
 
 ]
 

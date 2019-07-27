@@ -8,7 +8,7 @@ from user.views import *
 from SocialAuth.views import *
 from countdown.views import *
 from event.views import *
-
+from budgetManagement.views import *
 
 from django.conf.urls import include
 from django.conf import settings
@@ -41,6 +41,11 @@ urlpatterns = [
 
     #user sign-up-log-in-page
     path('user/', include('user.urls')),
+
+
+    path('eventcard/',displayEventCards),
+
+    path('budget/',budgetPage),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
