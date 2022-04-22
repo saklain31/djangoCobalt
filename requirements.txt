@@ -59,7 +59,7 @@ pycparser==2.19
 PyJWT==1.7.1
 pynliner==0.8.0
 pyparsing==2.4.0
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 Pyphen==0.9.5
 pytest==4.6.3
 pytest-cov==2.7.1
